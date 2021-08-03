@@ -1,0 +1,23 @@
+<p>binder-page works!</p>
+
+
+
+  <div class="binder-pages-container">
+      <mat-grid-list [cols]="binderColumn" rowHeight="3:4" class="binder-page">
+        <mat-grid-tile *ngFor="let cell of binderGrid; index as cellIndex">
+
+          <div id='{{"column"+(cellIndex+1)}}' class="binder-cell" [cdkDropListData]="bindersBlank[cellIndex]"
+               (cdkDropListDropped)="drop($event,'col')" cdkDropList>
+            <div class="example-box" *ngFor="let card of bindersBlank[cellIndex]" [cdkDragData]="card"
+                 cdkDrag>{{card}}</div>
+          </div>
+
+        </mat-grid-tile>
+      </mat-grid-list>
+  </div>
+
+
+
+
+
+

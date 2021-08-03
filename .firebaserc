@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "tcgbinders": {
+      "hosting": {
+        "tcg-binders": [
+          "tcgbinders"
+        ]
+      }
+    }
+  }
+}

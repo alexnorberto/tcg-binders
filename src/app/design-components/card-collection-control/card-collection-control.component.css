@@ -1,0 +1,17 @@
+.card-control {
+  position:absolute;
+  bottom: 0;
+  lef: 0;
+  z-index: 1;
+  background: white;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.add-to-collection-button {
+  position: absolute;
+  right: .6rem;
+}

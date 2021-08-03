@@ -1,0 +1,32 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td {
+  max-width: 10% !important;
+}
+
+.card-image {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+}
+
+tr.detail-card-row {
+  height: 0;
+}
+
+.data-card-row td {
+  border-bottom-width: 0;
+}
+
+.detail-card-row-content {
+  overflow: hidden;
+  display: flex;
+}

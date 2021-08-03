@@ -1,0 +1,49 @@
+<mat-toolbar>
+  <span routerLink="/home" style="cursor: pointer">Pokemon TCG Binders</span>
+
+  <span class="example-spacer"></span>
+
+
+  <button mat-button *ngIf="(angularFireAuth.user | async) else else_card" routerLink="/dashboard">{{userData.displayName}}</button>
+  <ng-template #else_card></ng-template>
+
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
+          [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+
+    <ng-container *ngIf="(angularFireAuth.user | async) else notLoggedMenu">
+      <button mat-menu-item color="primary" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Log out</span>
+      </button>
+      <button mat-menu-item color="primary" routerLink="/verify-email">
+        <mat-icon>help_outline</mat-icon>
+        <span>Resend email verification</span>
+      </button>
+      <button mat-menu-item color="primary" routerLink="/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </button>
+      <button mat-menu-item color="primary" routerLink="/admin">
+        <mat-icon>admin_panel_settings</mat-icon>
+        <span>Admin Dashboard</span>
+      </button>
+    </ng-container>
+    <ng-template #notLoggedMenu>
+      <button mat-menu-item color="primary" routerLink="/login">
+        <mat-icon>login</mat-icon>
+        <span>Login</span>
+      </button>
+      <button mat-menu-item color="primary" routerLink="/signup">
+        <mat-icon>person_add</mat-icon>
+        <span>Sign up</span>
+      </button>
+      <button mat-menu-item color="primary" routerLink="/forgot-password">
+        <mat-icon>help_outline</mat-icon>
+        <span>Forgot password</span>
+      </button>
+    </ng-template>
+  </mat-menu>
+</mat-toolbar>

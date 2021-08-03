@@ -1,0 +1,22 @@
+<mat-card *ngIf="userData" class="form-card">
+  <mat-card-content>
+    <mat-list *ngIf="userData">
+      <mat-list-item>Username: {{ userData.displayName }}</mat-list-item>
+      <mat-list-item>Email: {{ userData.email }}</mat-list-item>
+    </mat-list>
+
+    <form [formGroup]="userDataForm" (ngSubmit)="editUserData()">
+
+      <mat-form-field appearance="outline">
+        <mat-label>New username:</mat-label>
+        <input autocomplete="off" formControlName="name" type="text" matInput placeholder="username">
+      </mat-form-field>
+
+      <div *ngIf="firebaseErrorMessage != ''" class="error-style">
+        <span>{{ firebaseErrorMessage }}</span>
+      </div>
+
+      <button mat-raised-button color="accent">Change Name</button>
+    </form>
+  </mat-card-content>
+</mat-card>
