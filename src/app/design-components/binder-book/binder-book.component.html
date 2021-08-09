@@ -1,55 +1,59 @@
 <div class="binder-book-container">
   <!-- Previous Button -->
   <button #prevBtn id="prev-btn" (click)="goPrevPage()">
-    <mat-icon>home</mat-icon>
+    <mat-icon>arrow_back_ios_new</mat-icon>
   </button>
 
 
   <!-- Book -->
   <div #book id="book" class="book">
-    <!-- Paper 1 -->
-    <div #paper1 id="p1" class="paper">
+
+    <!-- Cover -->
+    <div #cover id="p0" class="paper" [style.zIndex]=(maxLocation)>
+      <div class="front cover">
+        <div id="f0" class="front-content">
+          Cover
+        </div>
+      </div>
+      <div class="back cover">
+        <div id="b0" class="back-content">
+          Cover - back
+        </div>
+      </div>
+    </div>
+
+    <!-- Papers -->
+    <div #paper id="{{'p'+(i+1)}}" class="paper" *ngFor="let p of papers; index as i" [style.zIndex]=(numOfPapers-i)>
       <div class="front">
-        <div id="f1" class="front-content">
+        <div id="{{'f'+(i+1)}}" class="front-content">
           <app-binder-page></app-binder-page>
         </div>
       </div>
       <div class="back">
-        <div id="b1" class="back-content">
-          <h1>Back 1</h1>
+        <div id="{{'b'+(i+1)}}" class="back-content">
+          <app-binder-page></app-binder-page>
         </div>
       </div>
     </div>
-    <!-- Paper 2 -->
-    <div #paper2 id="p2" class="paper">
-      <div class="front">
-        <div id="f2" class="front-content">
-          <h1>Front 2</h1>
+
+    <!-- Back-cover -->
+    <div #backCover id="{{'p'+(maxLocation-1)}}" class="paper" [style.zIndex]="0">
+      <div class="front cover">
+        <div id="{{'f'+(maxLocation)}}" class="front-content">
+          Back Cover
         </div>
       </div>
-      <div class="back">
-        <div id="b2" class="back-content">
-          <h1>Back 2</h1>
-        </div>
-      </div>
-    </div>
-    <!-- Paper 3 -->
-    <div #paper3 id="p3" class="paper">
-      <div class="front">
-        <div id="f3" class="front-content">
-          <h1>Front 3</h1>
-        </div>
-      </div>
-      <div class="back">
-        <div id="b3" class="back-content">
-          <h1>Back 3</h1>
+      <div class="back cover">
+        <div id="{{'b'+(maxLocation)}}" class="back-content">
+          Back Cover - back
         </div>
       </div>
     </div>
+
   </div>
 
   <!-- Next Button -->
   <button #nextBtn id="next-btn" (click)="goNextPage()">
-    <mat-icon>home</mat-icon>
+    <mat-icon>arrow_forward_ios</mat-icon>
   </button>
 </div>

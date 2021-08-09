@@ -10,15 +10,24 @@
   justify-content: center;
   align-items: center;
   font-family: sans-serif;
-  background-color: powderblue;
+  background: #3c8035;
 }
 
 /* Book */
 .book {
   position: relative;
   width: 470px;
-  height: 620px;
-  transition: transform 0.5s;
+  height: 645px;
+  transition: transform 1s;
+}
+
+.cover {
+  background-color: var(--black-m) !important;
+  border-top: 10px solid var(--black-d);
+  border-bottom: 10px solid var(--black-d);
+  border-right: 10px solid var(--black-d);
+  top: -10px !important;
+  box-sizing: content-box;
 }
 
 .paper {
@@ -32,20 +41,21 @@
 
 .front,
 .back {
-  background-color: white;
+  background-color: var(--grey-d);
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
   transform-origin: left;
-  transition: transform 0.5s;
+  transition: transform 0s;
 }
 
 .front {
   z-index: 1;
   backface-visibility: hidden;
-  border-left: 3px solid powderblue;
 }
 
 .back {
@@ -80,28 +90,18 @@ button {
   transition: transform 0.5s;
 }
 
-button:focus {
-  outline: none;
-}
-
-button:hover i {
+button:hover {
   color: #636363;
 }
 
-i {
-  font-size: 50px;
-  color: gray;
+#next-btn{
+  transform: translateX(5px);
 }
 
-/* Paper stack order */
-#p1 {
-  z-index: 3;
+#p1 .front, #p3 .front, #p1 .back, #p3 .back {
+  background-color: var(--green-d);
 }
 
-#p2 {
-  z-index: 2;
-}
-
-#p3 {
-  z-index: 1;
+#p2 .front, #p4 .front, #p2 .back, #p4 .back {
+  background-color: var(--terra-d);
 }

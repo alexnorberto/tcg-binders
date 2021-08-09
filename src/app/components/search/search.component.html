@@ -1,4 +1,4 @@
-<mat-toolbar color="accent" id="main-search-bar">
+<div id="main-search-bar">
   <mat-form-field appearance="legacy">
     <input [formControl]="searchForm" type="text" matInput placeholder="Search">
   </mat-form-field>
@@ -22,12 +22,34 @@
     </mat-select>
   </mat-form-field>
 
-
   <button mat-button (click)="basicSearch(searchForm.value,1)">search</button>
 
-</mat-toolbar>
+</div>
 
 <div *ngIf="searchList.length" id="main-search-container">
+
+  <mat-expansion-panel hideToggle *ngIf="cardsToAddList.length">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        List of Cards <span *ngIf="cardsToAddList">({{cardsToAddList.length}})</span>
+      </mat-panel-title>
+      <mat-panel-description>
+        cards to add/remove from users collections
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div *ngIf="cardsToAddList">
+      <p *ngFor="let cardToAdd of cardsToAddList">
+       {{cardToAdd.card.name}} ( {{cardToAdd.quantity}} )
+        <app-card-collection-control *ngIf="userData.email"
+                                     [card]="cardToAdd.card"
+                                     [cardsList]="cardsToAddList"
+                                     [quantity]="cardToAdd.quantity"
+                                     (cardsListEmitter)="updateCardsToAddList($event)">
+        </app-card-collection-control>
+      </p>
+    </div>
+    <button mat-raised-button class="btn-primary" (click)="clickAddCardsToUser()">Add Cards</button>
+  </mat-expansion-panel>
 
   <mat-paginator [length]="paginatorlength"
                  [pageSize]="paginatorPageSize"
@@ -37,36 +59,17 @@
   </mat-paginator>
 
   <div id="main-search-grid">
-
-
-    <div *ngFor="let card of searchList" class="main-search-card-container">
-
-      <app-card-collection-control *ngIf="userData.email" [card]="card" [userData]="userData"></app-card-collection-control>
-
-      <div *ngIf="card.images"><img src={{card.images.small}} alt="card"></div>
-
-      <!--
-        <span>{{card.name}}</span>
-        <span *ngFor="let ability of card.attacks">{{ability.name}}</span>
-        <span>{{card.artist}}</span>
-        <span *ngFor="let attack of card.attacks">{{attack.name}}</span>
-        <span>{{card.convertedRetreatCost}}</span>
-        <span>{{card.evolvesFrom}}</span>
-        <span>{{card.hp}}</span>
-        <span>{{card.id}}</span>
-        <span>{{card.level}}</span>
-        <span *ngFor="let nationalNumber of card.nationalPokedexNumbers">{{nationalNumber}}</span>
-        <span>{{card.number}}</span>
-        <span>{{card.rarity}}</span>
-        <span>{{card.supertype}}</span>
-        <span *ngFor="let retreatCost of card.retreatCost">{{retreatCost}}</span>
-        <span *ngFor="let subtype of card.subtypes">{{subtype}}</span>
-        <span *ngFor="let type of card.types">{{type}}</span>
-        <span *ngFor="let resistance of card.resistances">{{resistance.type}}
-          ,{{resistance.value}}</span>
-        <span *ngFor="let weakness of card.weaknesses">{{weakness.type}},{{weakness.value}}</span>
-        -->
-
+    <div *ngFor="let searchCard of searchList" class="main-search-card-container">
+      <!-- CARD IMAGE -->
+      <div *ngIf="searchCard.card.images"><img matTooltip="{{searchCard.card.name}} card" src='{{searchCard.card.images.small}}' alt="card"></div>
+      <!-- CARD CONTROL -->
+      <div *ngIf="searchCard.card" class="card-control">
+        <app-card-collection-control *ngIf="userData.email"
+                                     [card]="searchCard.card"
+                                     [cardsList]="cardsToAddList"
+                                     (cardsListEmitter)="updateCardsToAddList($event)">
+        </app-card-collection-control>
+      </div>
     </div>
   </div>
 

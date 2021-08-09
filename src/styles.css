@@ -1,5 +1,77 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
 
+  --grey-l: #fff;
+  --grey-m: #eee;
+  --grey-d: #ddd;
+
+  --creme-l: #fff5ee;
+  --creme-m: #f8ebe0;
+  --creme-d: #f5dccb;
+
+  --terra-l: #ff8933;
+  --terra-m: #ee8231;
+  --terra-d: #c56c28;
+
+  --green-l: #4ea444;
+  --green-m: #3c8035;
+  --green-d: #31672b;
+
+  --black-l: #1e2321;
+  --black-m: #111312;
+  --black-d: #080a09;
+
+  --bg-main: var(--grey-l);
+  --bg-secondary: var(--creme-m);
+
+  --border-l: var(--grey-d);
+
+  --txt-main: var(--green-d);
+  --txt-title: var(--green-l);
+  --txt-title2: var(--terra-l);
+
+  --btn-primary:var(--terra-l);
+  --btn-secondary:var(--green-l);
+}
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-* { box-sizing: border-box }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background: var(--bg-main) }
+* { box-sizing: border-box; }
+
+.btn-full {
+  width: 100% !important;
+}
+
+.btn-primary {
+  background: var(--btn-primary);
+  color: var(--bg-main);
+  margin: 2px !important;
+}
+
+.btn-secondary {
+  background: var(--btn-secondary);
+  color: var(--bg-main);
+  margin: 2px;
+}
+
+mat-paginator{
+  background: transparent !important;
+}
+
+
+.basic-form-container {
+  border: 1px solid var(--border-l);
+  border-radius: .4rem;
+  padding: 1.25rem;
+  margin: 20px 10px;
+  flex-shrink: 1;
+  flex-grow: 1;
+
+  align-self: stretch;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: flex-start;
+}
+
+.basic-form-container h1 {
+  color: var(--txt-title2);
+}

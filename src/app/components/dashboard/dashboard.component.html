@@ -1,25 +1,20 @@
-<h1>Dashboard</h1>
 
-<div cdkDropListGroup>
-  <app-cards-carousel [userData]="userData"></app-cards-carousel>
-  <app-binder-book></app-binder-book>
-  <div style="display: flex; justify-content: center; flex-flow: row nowrap;">
-    <app-binder-page [userData]="userData"></app-binder-page>
-    <app-binder-page [userData]="userData"></app-binder-page>
-  </div>
-</div>
-<mat-accordion>
-  <app-expansion-container>
-    <app-user-info [userData]="userData"></app-user-info>
-    <span title>User Info</span>
-  </app-expansion-container>
-  <app-expansion-container *ngIf="userData.cards != null">
-    <app-user-cards></app-user-cards>
-    <span title>My Cards</span>
-  </app-expansion-container>
-  <app-expansion-container *ngIf="userData.cards != undefined">
-    <app-user-collections></app-user-collections>
-    <span title>My Collections</span>
-  </app-expansion-container>
-</mat-accordion>
+
+<app-basic-container>
+  <span title>Dashboard</span>
+  <mat-accordion>
+    <app-expansion-container>
+      <app-user-info [userData]="userData"></app-user-info>
+      <span title>User Info</span>
+    </app-expansion-container>
+    <app-expansion-container *ngIf="userData.cards != null">
+      <app-user-cards></app-user-cards>
+      <span title>My Cards</span>
+    </app-expansion-container>
+    <app-expansion-container *ngIf="userData.cards != undefined">
+      <app-user-collections></app-user-collections>
+      <span title>My Collections</span>
+    </app-expansion-container>
+  </mat-accordion>
+</app-basic-container>
 

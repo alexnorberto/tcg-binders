@@ -1,44 +1,66 @@
-<p>user-collections works!</p>
 
-<div>
-  <mat-form-field appearance="fill">
-    <mat-label>New tab name</mat-label>
-    <input matInput type="text" [formControl]="newCollectionName">
-  </mat-form-field>
-  <button mat-raised-button
-          class="example-add-tab-button"
-          (click)="addTab(newCollectionName.value,selectAfterAdding.checked)">
-    Create New Collection
-  </button>
-  <mat-checkbox #selectAfterAdding> Select tab after adding </mat-checkbox>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Choose one</mat-label>
-    <mat-select [formControl]="selected">
-      <mat-option>Clear</mat-option>
-      <mat-option value='{{i}}' *ngFor="let collectionTab of cardsByCollection; index as i">{{collectionTab.name}}</mat-option>
-      <mat-option value="invalid">Invalid option</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-
-<mat-tab-group [selectedIndex]="selected.value"
+<mat-tab-group *ngIf="userData.collections"
+               [selectedIndex]="selected.value"
                (selectedIndexChange)="selected.setValue($event)">
   <mat-tab *ngFor="let collection of cardsByCollection; let index = index" [label]="collection.name">
     <!-- START CONTENT FOR TAB -->
 
-    <div *ngIf="userData.cards.length">
-      <div *ngFor="let cards of collection.cards">
-        {{cards.name}}
-      </div>
+
+    <div *ngFor="let cards of collection.cards">
+      {{cards.name}}
+    </div>
+
+    <div cdkDropListGroup>
+      <app-cards-carousel [collection]="collection.cards"></app-cards-carousel>
+      <app-binder-book></app-binder-book>
     </div>
 
     <!-- END CONTENT FOR TAB -->
     <button mat-raised-button
-            class="example-delete-tab-button"
+            class="btn-secondary"
             [disabled]="cardsByCollection.length === 1"
             (click)="removeTab(collection.name,index)">
       Delete {{collection.name}}
     </button>
   </mat-tab>
 </mat-tab-group>
+
+<app-basic-container>
+  <span title>Collections</span>
+  <div class="user-cards-top">
+    <div class="basic-form-container">
+      <h1>Create Collection</h1>
+      <mat-form-field appearance="legacy">
+        <mat-label>New collection name</mat-label>
+        <input matInput type="text" [formControl]="newCollectionName">
+      </mat-form-field>
+      <button mat-raised-button
+              class="example-add-tab-button btn-primary"
+              (click)="addTab(newCollectionName.value,selectAfterAdding.checked)">
+        Create New Collection
+      </button>
+      <mat-checkbox #selectAfterAdding> Select collection after adding</mat-checkbox>
+
+
+    </div>
+
+    <div class="basic-form-container">
+      <h1>Manage Collections</h1>
+      <mat-form-field appearance="legacy">
+        <mat-label>Choose one</mat-label>
+        <mat-select [formControl]="selected">
+          <mat-option>Clear</mat-option>
+          <mat-option value='{{i}}'
+                      *ngFor="let collectionTab of cardsByCollection; index as i">{{collectionTab.name}}</mat-option>
+          <mat-option value="invalid">Invalid option</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div>
+        <button mat-raised-button class="btn-primary">Create a binder</button>
+        <button mat-raised-button class="btn-secondary">Delete collection</button>
+      </div>
+    </div>
+  </div>
+</app-basic-container>

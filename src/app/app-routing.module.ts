@@ -10,10 +10,15 @@ import {VerifyEmailComponent} from "./components/verify-email/verify-email.compo
 import {AuthGuard} from "./services/auth.guard";
 import {ForgotPasswordComponent} from "./components/forgot-password/forgot-password.component";
 import {SortTableComponent} from "./design-components/sort-table/sort-table.component";
+import {UserCardsComponent} from "./components/user-cards/user-cards.component";
+import {UserCollectionsComponent} from "./components/user-collections/user-collections.component";
+import {FirestoreTestsComponent} from "./components/firestore-tests/firestore-tests.component";
 
 const routes: Routes = [
   {path: "", redirectTo: "home", pathMatch: "full"},
   {path: "admin", component: AdminDashboardComponent, canActivate: [AuthGuard]},
+  {path: "cards", component: UserCardsComponent},
+  {path: "collections", component: UserCollectionsComponent},
   {path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard]},
   {path: "forgot-password", component: ForgotPasswordComponent},
   {path: "home", component: HomeComponent},
@@ -21,6 +26,8 @@ const routes: Routes = [
   {path: "search", component: SearchComponent},
   {path: "signup", component: SignupComponent},
   {path: "verify-email", component: VerifyEmailComponent},
+
+  {path: "fire", component: FirestoreTestsComponent},
 
   {path: "table", component: SortTableComponent},
   {path: "**", component: HomeComponent},

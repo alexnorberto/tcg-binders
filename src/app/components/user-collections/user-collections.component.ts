@@ -52,7 +52,6 @@ export class UserCollectionsComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   setCardsByCollection() {
-
     let cardsByCollection = [];
     let userDataCards = this.userData.cards;
     let userDataCollections = this.userData.collections;
@@ -89,8 +88,10 @@ export class UserCollectionsComponent implements OnInit, OnChanges, AfterViewIni
   ngOnInit(): void {
     this.userDataService.currentUserData
       .subscribe(user => {
-        this.userData = user;
-        this.setCardsByCollection();
+        if(user.collections){
+          this.userData = user;
+          this.setCardsByCollection();
+        }
       });
   }
 

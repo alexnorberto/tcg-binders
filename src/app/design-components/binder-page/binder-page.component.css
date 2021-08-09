@@ -55,19 +55,21 @@
   max-width: 150px;
   height: 200px;
   margin:5px;
-  padding: 10px 10px;
-  border: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   cursor: move;
-  background: cadetblue;
   font-size: 14px;
   flex-grow: 1;
   flex-basis: 0;
 }
+
+.example-box img {
+  width: 100%;
+}
+
 
 /* adds shadow when dragging */
 .cdk-drag-preview {

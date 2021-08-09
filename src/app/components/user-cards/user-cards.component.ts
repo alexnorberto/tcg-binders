@@ -22,6 +22,13 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class UserCardsComponent implements OnInit {
 
+  selectedCardList = [];
+  dataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = ['name', 'number',  'set', 'rarity', 'artist', 'quantity', 'collections', 'select'];
+  collectionsFormControl = new FormControl();
+
+  selection = new SelectionModel<TcgCardModel>(true, []);
+
   expandedElement: any | null;
 
   userData = new UserDataModel();
@@ -106,12 +113,7 @@ export class UserCardsComponent implements OnInit {
     this.selection = new SelectionModel<TcgCardModel>(true, []);
   }
 
-  selectedCardList = [];
-  dataSource = new MatTableDataSource(this.userData.cards);
-  displayedColumns: string[] = ['name', 'number',  'set', 'rarity', 'artist', 'quantity', 'collections', 'select'];
-  collectionsFormControl = new FormControl();
 
-  selection = new SelectionModel<TcgCardModel>(true, []);
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -124,7 +126,10 @@ export class UserCardsComponent implements OnInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     if (this.isAllSelected()) {
+      console.log('lista',this.selectedCardList)
       this.selection.clear();
+      this.selectedCardList = [];
+      console.log('lista',this.selectedCardList)
       return;
     }
     this.selection.select(...this.dataSource.data);
@@ -161,14 +166,17 @@ export class UserCardsComponent implements OnInit {
     private userDataService: UserDataService,
     private firebaseService: FirebaseService
   ) {
+    this.dataSource = new MatTableDataSource(this.userData.cards);
   }
 
   ngOnInit() {
     this.userDataService.currentUserData
       .subscribe(user => {
-        this.userData = user;
-        this.userCollections = this.userData.collections;
-        this.setDataSourceTable();
+        if(user.cards){
+          this.userData = user;
+          this.userCollections = this.userData.collections;
+          this.setDataSourceTable();
+        }
       });
   }
 

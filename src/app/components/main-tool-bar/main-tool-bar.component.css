@@ -3,10 +3,16 @@
 }
 
 mat-toolbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   z-index: 10000;
   height: 3.5rem;
+  background: var(--bg-main);
+  border-bottom: 1px solid var(--grey-m);
+}
+
+#logo {
+  color: var(--txt-title)
+}
+
+#logo span {
+  color: var(--txt-title2)
 }

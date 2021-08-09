@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {environment} from "../../environments/environment";
 
 const tcgApiUrl = "https://api.pokemontcg.io/v2/cards";
-const headers = new HttpHeaders().set('x-api-key', `7cf869e2-9e98-421a-b24c-e5b2e29ca855`);
+const headers = new HttpHeaders().set('x-api-key', environment.tcgAPI);
 
 @Injectable({
   providedIn: 'root'

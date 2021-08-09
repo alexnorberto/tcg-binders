@@ -34,7 +34,7 @@ export class CardsCarouselComponent implements OnInit {
     console.log(this.bindersBlank);
   }
 
-  @Input() userData;
+  @Input() collection;
   @Input() binderRow = 3;
   @Input() binderColumn = 3;
   binderGrid: Array<any>;

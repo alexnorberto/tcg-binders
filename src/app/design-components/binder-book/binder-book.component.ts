@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+  ViewContainerRef
+} from '@angular/core';
 
 
 
@@ -9,20 +18,21 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 })
 export class BinderBookComponent implements OnInit, AfterViewInit {
 
+  //Number of papers
+  @Input() numberOfPapers = [1,2,3];
+
   // References to DOM Elements
    @ViewChild('prevBtn') prevBtn;
   @ViewChild('nextBtn') nextBtn;
   @ViewChild('book') book;
 
-  @ViewChild('paper1') paper1;
-  @ViewChild('paper2') paper2;
-  @ViewChild('paper3') paper3;
+  @ViewChildren('paper',  { read: ViewContainerRef }) papersRef: QueryList<ViewContainerRef>;
 
 
 // Business Logic
-  currentLocation = 1;
+  currentLocation = 0;
   numOfPapers = 3;
-  maxLocation = this.numOfPapers + 1;
+  maxLocation = this.numOfPapers + 2;
 
   openBook() {
     console.log("open book",this.book)
@@ -43,73 +53,75 @@ export class BinderBookComponent implements OnInit, AfterViewInit {
     this.nextBtn.style.transform = "translateX(0px)";
   }
 
+
   goNextPage() {
-    console.log("next page", this.currentLocation , this.maxLocation)
     if(this.currentLocation < this.maxLocation) {
-      switch(this.currentLocation) {
-        case 1:console.log("case 1")
-          this.openBook();
-          this.paper1.classList.add("flipped");
-          this.paper1.style.zIndex = '1';
-          break;
-        case 2:console.log("case 2")
-          this.paper2.classList.add("flipped");
-          this.paper2.style.zIndex = '2';
-          break;
-        case 3:console.log("case 3")
-          this.paper3.classList.add("flipped");
-          this.paper3.style.zIndex = '3';
-          this.closeBook(false);
-          break;
-        default:
-          throw new Error("unkown state");
+
+      let paper = document.getElementById('p'+this.currentLocation);
+      paper.classList.add("flipped");
+      paper.style.zIndex = (this.currentLocation).toString();
+
+      if (this.currentLocation > 0) {
+        let paperBefore = document.getElementById('p'+(this.currentLocation-1).toString());
+        paperBefore.style.zIndex = (this.currentLocation-1).toString();
       }
+
+      if (this.currentLocation < this.maxLocation) {
+        let paperAfter = document.getElementById('p' + (this.currentLocation + 1).toString());
+        paperAfter.style.zIndex = (this.maxLocation).toString();
+      }
+
+      if(this.currentLocation == 0){
+         this.openBook();
+      }
+
+      if(this.maxLocation - this.currentLocation == 1) {
+        this.closeBook(false);
+      }
+
       this.currentLocation++;
     }
   }
 
   goPrevPage() {
-    console.log("prev page")
-    if(this.currentLocation > 1) {
-      switch(this.currentLocation) {
-        case 2:
-          console.log("case 2")
-          this.closeBook(true);
-          this.paper1.classList.remove("flipped");
-          this.paper1.style.zIndex = '3';
-          break;
-        case 3:
-          console.log("case 2")
-          this.paper2.classList.remove("flipped");
-          this.paper2.style.zIndex = '2';
-          break;
-        case 4:
-          console.log("case 4")
-          this.openBook();
-          this.paper3.classList.remove("flipped");
-          this.paper3.style.zIndex = '1';
-          break;
-        default:
-          throw new Error("unkown state");
+    if(this.currentLocation > 0) {
+
+      let paper = document.getElementById('p'+(this.currentLocation-1).toString());
+      paper.classList.remove("flipped");
+      paper.style.zIndex = (this.maxLocation - this.currentLocation).toString();
+
+
+      if(this.currentLocation == this.maxLocation){
+        this.openBook();
+      }
+
+      if(this.currentLocation == 1) {
+        this.closeBook(true);
       }
 
       this.currentLocation--;
     }
   }
 
-  constructor() { }
+  constructor() {
+    this.papers = new Array(this.numOfPapers);
+  }
 
   ngOnInit(): void {
 
   }
-
+  papers = [];
   ngAfterViewInit() {
+
+    this.papersRef.forEach((paper,i) => {
+      console.log(paper.element)
+      this.papers[i] = paper.element.nativeElement;
+    });
+
+    console.log('this papers',this.papers)
     this.book = this.book.nativeElement;
     this.prevBtn = this.prevBtn.nativeElement;
     this.nextBtn = this.nextBtn.nativeElement;
-    this.paper1 = this.paper1.nativeElement;
-    this.paper2 = this.paper2.nativeElement;
-    this.paper3 = this.paper3.nativeElement;
   }
 
 }

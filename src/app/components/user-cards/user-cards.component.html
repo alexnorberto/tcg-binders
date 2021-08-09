@@ -1,125 +1,140 @@
-<mat-toolbar>
-
-  <mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Blastoise" #input>
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Collections</mat-label>
-    <mat-select [formControl]="collectionsFormControl" multiple>
-      <mat-select-trigger>
-        {{collectionsFormControl.value ? collectionsFormControl.value[0] : ''}}
-        <span *ngIf="collectionsFormControl.value?.length > 1" class="example-additional-selection">
+<app-basic-container>
+  <app-search></app-search>
+  <div class="user-cards-top">
+    <div class="basic-form-container">
+      <h1>Filter Cards</h1>
+      <p>Type a card attribute from the list bellow to filter cards.</p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Blastoise" #input>
+      </mat-form-field>
+    </div>
+    <div class="basic-form-container">
+      <h1>Manage card's collections</h1>
+      <p>Add to or remove from your collection the selected cards from the list below.</p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Collections</mat-label>
+        <mat-select [formControl]="collectionsFormControl" multiple appearance="legacy">
+          <mat-select-trigger>
+            {{collectionsFormControl.value ? collectionsFormControl.value[0] : ''}}
+            <span *ngIf="collectionsFormControl.value?.length > 1" class="example-additional-selection">
         (+{{collectionsFormControl.value.length - 1}} {{collectionsFormControl.value?.length === 2 ? 'other' : 'others'}}
-          )
+              )
       </span>
-      </mat-select-trigger>
-      <mat-option *ngFor="let collection of userCollections" [value]="collection.name">{{collection.name}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+          </mat-select-trigger>
+          <mat-option *ngFor="let collection of userCollections"
+                      [value]="collection.name">{{collection.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <button mat-button (click)="addCards()">Add cards</button>
-</mat-toolbar>
+      <div class="add-remove-buttons" *ngIf="selection.selected.length">
+        <button mat-button (click)="addCards()" class="btn-primary btn">Add cards</button>
+        <button mat-button  class="btn-primary btn">Remove cards</button>
+      </div>
+    </div>
+  </div>
 
-<div>
-  <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows  style="position: relative" class="mat-elevation-z8">
+  <span title>User Cards</span>
 
-
-
-    <!-- name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name</th>
-      <td mat-cell *matCellDef="let card"> {{card.name}} </td>
-    </ng-container>
-
-    <!-- Number Column -->
-    <ng-container matColumnDef="number">
-      <th mat-header-cell *matHeaderCellDef> Qt</th>
-      <td mat-cell *matCellDef="let card"> {{card.number}}/{{card.set.total}} </td>
-    </ng-container>
-
-    <!-- Set Column -->
-    <ng-container matColumnDef="set">
-      <th mat-header-cell *matHeaderCellDef> Set</th>
-      <td mat-cell *matCellDef="let card">{{card.set.name}}</td>
-    </ng-container>
-
-    <!-- rarity Column -->
-    <ng-container matColumnDef="rarity">
-      <th mat-header-cell *matHeaderCellDef> Rarity</th>
-      <td mat-cell *matCellDef="let card"> {{card.rarity}} </td>
-    </ng-container>
-
-    <!-- artist Column -->
-    <ng-container matColumnDef="artist">
-      <th mat-header-cell *matHeaderCellDef> Artist</th>
-      <td mat-cell *matCellDef="let card"> {{card.artist}} </td>
-    </ng-container>
-
-    <!-- Number Column -->
-    <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef> Copies </th>
-      <td mat-cell *matCellDef="let card"> {{card.quantity}} </td>
-    </ng-container>
-
-    <!-- collections Column -->
-    <ng-container matColumnDef="collections">
-      <th mat-header-cell *matHeaderCellDef> Collections</th>
-      <td mat-cell *matCellDef="let card"> <span *ngFor="let col of card.collections">{{col.collection}}({{col.quantity}})<br></span> </td>
-    </ng-container>
-
-    <!-- Checkbox Column -->
-    <ng-container matColumnDef="select">
-      <th mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()"
-        >
-        </mat-checkbox>
-      </th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox (change)="$event ? selection.toggle(row) : null"
-                      (click)="$event.stopPropagation()"
-                      [checked]="selection.isSelected(row)"
-        >
-        </mat-checkbox>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="expandedDetail">
-      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-        <div class="detail-card-row-content"
-             [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-
-          <img src="{{element.images.small}}">
-
-        </div>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let element; columns: displayedColumns;"
-        class="data-card-row"
-        [class.example-expanded-row]="expandedElement === element"
-        (click)="expandedElement = expandedElement === element ? null : element">
-    </tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-card-row"></tr>
+  <div>
+    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows style="position: relative"
+           class="mat-elevation-z8">
 
 
-    <!-- Row shown when there is no matching data. -->
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No cards matching "{{input.value}}"</td>
-    </tr>
-  </table>
+      <!-- name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name</th>
+        <td mat-cell *matCellDef="let card"> {{card.name}} </td>
+      </ng-container>
 
-  <mat-paginator [length]="paginatorlength"
-                 [pageSize]="paginatorPageSize"
-                 [pageSizeOptions]="[5, 10, 80, 120]"
-                 (page)="onPaginate($event)"
-                 aria-label="Select page of cards">
-  </mat-paginator>
-</div>
+      <!-- Number Column -->
+      <ng-container matColumnDef="number">
+        <th mat-header-cell *matHeaderCellDef> Number </th>
+        <td mat-cell *matCellDef="let card"> {{card.number}}/{{card.set.total}} </td>
+      </ng-container>
 
+      <!-- Set Column -->
+      <ng-container matColumnDef="set">
+        <th mat-header-cell *matHeaderCellDef> Set</th>
+        <td mat-cell *matCellDef="let card">{{card.set.name}}</td>
+      </ng-container>
+
+      <!-- rarity Column -->
+      <ng-container matColumnDef="rarity">
+        <th mat-header-cell *matHeaderCellDef> Rarity</th>
+        <td mat-cell *matCellDef="let card"> {{card.rarity}} </td>
+      </ng-container>
+
+      <!-- artist Column -->
+      <ng-container matColumnDef="artist">
+        <th mat-header-cell *matHeaderCellDef> Artist</th>
+        <td mat-cell *matCellDef="let card"> {{card.artist}} </td>
+      </ng-container>
+
+      <!-- Number Column -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Copies</th>
+        <td mat-cell *matCellDef="let card"> {{card.quantity}} </td>
+      </ng-container>
+
+      <!-- collections Column -->
+      <ng-container matColumnDef="collections">
+        <th mat-header-cell *matHeaderCellDef> Collections</th>
+        <td mat-cell *matCellDef="let card"><span *ngFor="let col of card.collections">{{col.collection}}
+          ({{col.quantity}})<br></span></td>
+      </ng-container>
+
+      <!-- Checkbox Column -->
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (change)="$event ? selection.toggle(row) : null"
+                        (click)="$event.stopPropagation()"
+                        [checked]="selection.isSelected(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="detail-card-row-content"
+               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+            <img src="{{element.images.small}}">
+
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+          class="data-card-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-card-row"></tr>
+
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No cards matching "{{input.value}}"</td>
+      </tr>
+    </table>
+
+    <mat-paginator [length]="paginatorlength"
+                   [pageSize]="paginatorPageSize"
+                   [pageSizeOptions]="[5, 10, 80, 120]"
+                   (page)="onPaginate($event)"
+                   aria-label="Select page of cards">
+    </mat-paginator>
+  </div>
+</app-basic-container>
 
 

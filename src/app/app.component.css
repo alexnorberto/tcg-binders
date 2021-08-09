@@ -1,6 +1,7 @@
 #main-content {
-  margin: 3.5rem auto;
-  width: 100%;
-  max-width: 1000px;
   position: relative;
+  padding-bottom: 12.5rem;
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(155deg,var(--bg-main) 30%,var(--green-l));
 }

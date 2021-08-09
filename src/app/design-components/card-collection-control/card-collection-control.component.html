@@ -1,12 +1,7 @@
 
-<div *ngIf="card" class="card-control">
-
-  <mat-icon (click)="addOne(false)">remove</mat-icon>
-    <span>{{card.quantity}}</span>
-  <mat-icon (click)="addOne(true)">add</mat-icon>
-
-  <button mat-stroked-button *ngIf="card.quantity != originalQuantity" (click)="addCardToUserData()" class="add-to-collection-button"
-          class="add-to-collection-button">update
-  </button>
-</div>
+<ng-container *ngIf="card" class="card-control">
+    <mat-icon (click)="removeFromList()" class="btn-control">remove</mat-icon>
+    <span>{{quantity}}</span>
+    <mat-icon (click)="addToList()" class="btn-control">add</mat-icon>
+</ng-container>
 
