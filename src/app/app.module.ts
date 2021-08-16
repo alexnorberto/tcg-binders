@@ -66,9 +66,9 @@ import { BinderPageComponent } from './design-components/binder-page/binder-page
 import { SingleCardComponent } from './design-components/single-card/single-card.component';
 import { CardsCarouselComponent } from './design-components/cards-carousel/cards-carousel.component';
 import { BinderBookComponent } from './design-components/binder-book/binder-book.component';
-import { BasicContainerComponent } from './design-components/basic-container/basic-container.component';
 import { MainFooterComponent } from './components/main-footer/main-footer.component';
-import { FirestoreTestsComponent } from './components/firestore-tests/firestore-tests.component';
+import { BasicContainerComponent } from './design-components/basic-container/basic-container.component';
+//import { FirestoreTestsComponent } from './components/firestore-tests/firestore-tests.component';
 
 @NgModule({
   declarations: [
@@ -92,9 +92,11 @@ import { FirestoreTestsComponent } from './components/firestore-tests/firestore-
     SingleCardComponent,
     CardsCarouselComponent,
     BinderBookComponent,
-    BasicContainerComponent,
     MainFooterComponent,
-    FirestoreTestsComponent
+    BasicContainerComponent,
+    //BasicContainerComponent,
+    //MainFooterComponent,
+    //FirestoreTestsComponent
   ],
   imports: [
     BrowserModule,
