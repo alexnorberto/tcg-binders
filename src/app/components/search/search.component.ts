@@ -58,7 +58,7 @@ export class SearchComponent implements OnInit, OnChanges, AfterViewInit {
   addCardsToBaseUserCollection() {
     let newCardsToAddList = this.setCardIndexList(this.cardsToAddList);
     console.log('newCardsToAddList',newCardsToAddList)
-    if (this.userBaseCollection.cards == undefined) {
+    if (!this.userBaseCollection?.cards) {
       this.firebaseService.setCardsToUserCollection(this.userData.email, newCardsToAddList);
     } else {
       let newUserBaseCollection = this.userBaseCollection.cards;

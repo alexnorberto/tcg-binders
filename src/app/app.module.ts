@@ -55,7 +55,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
-import { MainToolBarComponent } from './components/main-tool-bar/main-tool-bar.component';
+import { MainToolBarComponent } from './design-components/main-tool-bar/main-tool-bar.component';
 import { UserInfoComponent } from './components/user-info/user-info.component';
 import { UserCardsComponent } from './components/user-cards/user-cards.component';
 import { UserCollectionsComponent } from './components/user-collections/user-collections.component';
