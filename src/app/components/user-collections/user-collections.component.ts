@@ -37,6 +37,7 @@ export class UserCollectionsComponent implements OnInit, OnChanges, AfterViewIni
       binders: [],
       cards: []
     }
+    console.log(this.userData);
     let collections = this.userData.collections;
     collections.push(collection);
     this.firebaseService.updateUser(this.userDataService.setUserData(this.userData, null, null, null, collections));
