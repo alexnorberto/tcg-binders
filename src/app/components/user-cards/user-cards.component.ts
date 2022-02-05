@@ -52,7 +52,7 @@ export class UserCardsComponent implements OnInit {
       this.dataSource.data = this.userData.cards.slice(start, end);
     }
   }
-/*
+/* TODO check issues on this method
   addCards() {
     let collectionsSelected = this.collectionsFormControl.value;
     let collections = this.userData.collections;

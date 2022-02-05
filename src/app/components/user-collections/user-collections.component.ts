@@ -51,7 +51,7 @@ export class UserCollectionsComponent implements OnInit, OnChanges, AfterViewIni
   removeCollectionFromUserData(collectionName) {
 
   }
-/*
+/* TODO check issues on this method
   setCardsByCollection() {
     let cardsByCollection = [];
     let userDataCards = this.userData.cards;
