@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import {FirebaseService} from "../../services/firebase.service";
+import {UserDataService} from "../../services/user-data.service";
 
 @Component({
   selector: 'app-home',
@@ -9,12 +9,24 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 })
 export class HomeComponent implements OnInit {
 
+  userDataSubscription;
 
-  constructor() {
+  userData;
+
+  constructor(private firestore: FirebaseService,
+              private userDataService: UserDataService) {
 
   }
 
   ngOnInit(): void {
+
+    this.userDataSubscription = this.userDataService.currentUserData
+      .subscribe(user => {
+        this.userData = user;
+        console.log(this.userData);
+      });
+
+
 
   }
 

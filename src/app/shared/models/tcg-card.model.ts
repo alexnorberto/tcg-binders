@@ -1,6 +1,8 @@
 export class TcgCardModel {
-  collections: Array<{ collection: string, quantity: number }>
-  quantity: number
+  // Custom data from APP
+  quantity?: number
+
+  // Data from API
   id: string
   name: string
   supertype: string
@@ -25,6 +27,8 @@ export class TcgCardModel {
   flavorText: string
   nationalPokedexNumbers: Array<number>
   legalities: any
+  regulationMark: string
   images: any
   tcgplayer: any
+  cardmarket: any
 }

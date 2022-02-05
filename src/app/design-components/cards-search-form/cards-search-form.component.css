@@ -1,0 +1,18 @@
+#main-search-bar {
+  z-index: 11;
+  font-size: .8rem !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+}
+
+#main-search-bar mat-form-field {
+  margin-right: .5rem;
+  margin-top: .7rem;
+  width: 5rem;
+}
+
+#main-search-bar mat-form-field:nth-child(1) {
+  width: 20rem;
+}

@@ -1,0 +1,11 @@
+Search View form
+
+<app-cards-search-form
+  [userMainCardsCollection]="userMainCardsCollection"
+  (searchListEmitter)="receiveSearchData($event)"
+></app-cards-search-form>
+
+<app-cards-list
+  [isLoggedUser]="userData.email ? true : false"
+  [searchList]="searchList"
+></app-cards-list>

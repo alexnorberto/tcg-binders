@@ -6,6 +6,6 @@ export class UserDataModel {
   displayName_lower: string;
   email: string;
   email_lower: string;
-  cards: Array<TcgCardModel>;
-  collections: Array<CardCollectionModel>;
+  cards?: Array<TcgCardModel>;
+  collections?: Array<CardCollectionModel>;
 }

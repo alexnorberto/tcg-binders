@@ -53,68 +53,6 @@ export class UserCardsComponent implements OnInit {
     }
   }
 
-  addCards() {
-    let collectionsSelected = this.collectionsFormControl.value;
-    let collections = this.userData.collections;
-    let cards = this.userData.cards;
-    let selectedCards = this.selectedCardList;
-    if (collectionsSelected == null || collections == null || selectedCards == null) {
-      return;
-    }
-    collectionsSelected.forEach(collectionSelected => {
-      let collectionIndex = searchMatch(collectionSelected, collections, 'name');
-      if (collectionIndex != null) {
-        /** Found the selected collection in userData, so search for each selected card in the collection **/
-        selectedCards.forEach(selectedCard => {
-          let cardsCollectionsIndex = searchMatch(selectedCard.id, collections[collectionIndex].cards, 'id');
-          let cardsIndex = searchMatch(selectedCard.id, cards, 'id');
-          if (cardsCollectionsIndex != null) {
-            /** If this card is in the collection, search for that collection data in card to increment the quantity for that collection */
-
-            let collectionsCardsCollectionsIndex =
-              searchMatch(collectionSelected, collections[collectionIndex].cards[cardsCollectionsIndex].collections, 'collection');
-            if (collectionsCardsCollectionsIndex != null) {
-              let quantity = collections[collectionIndex].cards[cardsCollectionsIndex].collections[collectionsCardsCollectionsIndex].quantity;
-              quantity++;
-              collections[collectionIndex].cards[cardsCollectionsIndex].collections[collectionsCardsCollectionsIndex].quantity = quantity;
-
-              let collectionsCardsIndex =
-                searchMatch(collectionSelected, cards[cardsIndex].collections, 'collection');
-              if (collectionsCardsIndex != null) {
-                cards[cardsIndex].collections[collectionsCardsIndex].quantity = quantity;
-              } else {
-                cards[cardsIndex].collections = cards[cardsIndex].collections ? cards[cardsIndex].collections : [];
-                cards[cardsIndex].collections.push({
-                  collection: collectionSelected,
-                  quantity: 1
-                });
-              }
-            } else {
-              selectedCard.collections = selectedCard.collections ? selectedCard.collections : [];
-              selectedCard.collections.push({
-                collection: collectionSelected,
-                quantity: 1
-              });
-            }
-          } else {
-            /** If this card is not in collection, push the card with new object with collection name and quantity */
-            console.log("selectedCard", selectedCard)
-            selectedCard.collections = selectedCard.collections ? selectedCard.collections : [];
-            selectedCard.collections.push({
-              collection: collectionSelected,
-              quantity: 1
-            });
-            collections[collectionIndex].cards.push(selectedCard);
-          }
-        });
-      }
-    });
-    this.firebaseService.updateUser(this.userDataService.setUserData(this.userData, null, null, cards, collections));
-    this.selection = new SelectionModel<TcgCardModel>(true, []);
-  }
-
-
-
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;

@@ -1,0 +1,19 @@
+<div *ngIf="searchList.length" id="main-search-container">
+
+  <div id="main-search-grid">
+    <div *ngFor="let searchCard of searchList" class="main-search-card-container">
+      <!-- CARD IMAGE -->
+      <div *ngIf="searchCard.images"><img matTooltip="{{searchCard.name}} card"
+                                                   src='{{searchCard.images.small}}' alt="card"></div>
+      <!-- CARD CONTROL -->
+      <div *ngIf="searchCard" class="card-control">
+        <app-card-collection-control
+          *ngIf="isLoggedUser"
+          [card]="searchCard"
+          [quantityOnUserMainCollection]="searchCard.quantity"
+        >
+        </app-card-collection-control>
+      </div>
+    </div>
+  </div>
+</div>

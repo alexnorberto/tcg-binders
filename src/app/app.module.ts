@@ -47,7 +47,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 
-import { SearchComponent } from './components/search/search.component';
+import { SearchViewComponent } from './components/search-view/search-view.component';
 import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
@@ -68,12 +68,14 @@ import { CardsCarouselComponent } from './design-components/cards-carousel/cards
 import { BinderBookComponent } from './design-components/binder-book/binder-book.component';
 import { MainFooterComponent } from './design-components/main-footer/main-footer.component';
 import { BasicContainerComponent } from './design-components/basic-container/basic-container.component';
+import { CardsListComponent } from './design-components/cards-list/cards-list.component';
+import { CardsSearchFormComponent } from './design-components/cards-search-form/cards-search-form.component';
 //import { FirestoreTestsComponent } from './components/firestore-tests/firestore-tests.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchComponent,
+    SearchViewComponent,
     HomeComponent,
     SignupComponent,
     LoginComponent,
@@ -94,6 +96,8 @@ import { BasicContainerComponent } from './design-components/basic-container/bas
     BinderBookComponent,
     MainFooterComponent,
     BasicContainerComponent,
+    CardsListComponent,
+    CardsSearchFormComponent,
     //BasicContainerComponent,
     //MainFooterComponent,
     //FirestoreTestsComponent

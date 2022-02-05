@@ -1,0 +1,32 @@
+<form id="main-search-bar" [formGroup]="searchForm">
+  <mat-form-field appearance="legacy">
+    <input formControlName="searchItem" type="text" matInput placeholder="Search">
+  </mat-form-field>
+
+  <mat-form-field appearance="legacy">
+    <mat-label>Display</mat-label>
+    <mat-select formControlName="displayOption">
+      <mat-option *ngFor="let item of ['List','Full','Images']" [value]="item">
+        {{item}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="legacy">
+    <mat-label>Sort</mat-label>
+    <mat-select formControlName="sortOption">
+      <mat-option *ngFor="let item of ['Name','Number','Set']" [value]="item">
+        {{item}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-button (click)="basicSearch(searchForm.value,1)">search</button>
+</form>
+
+<mat-paginator [length]="paginatorlength"
+               [pageSize]="paginatorPageSize"
+               [pageSizeOptions]="[20, 40, 80, 120]"
+               (page)="onPaginate($event)"
+               aria-label="Select page">
+</mat-paginator>

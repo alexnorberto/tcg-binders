@@ -1,0 +1,62 @@
+#main-search-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+
+#main-search-grid {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-search-card-container {
+  position: relative;
+  margin: 1rem;
+  display:flex;
+  flex-direction: column;
+  background: var(--bg-main);
+  border-radius: 10px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.main-search-card-container img {
+  width: 100%;
+  max-width: 12rem;
+  opacity: .8;
+}
+
+.main-search-card-container img:hover {
+  opacity: 1;
+}
+
+.card-control-container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 12rem;
+  height: 2.5rem;
+  margin: -.15rem 0 .2rem 0;
+}
+
+.card-control-inside-container {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:center;
+  font-size: 1rem;
+}
+
+.cards-to-add-list-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 10;
+}
