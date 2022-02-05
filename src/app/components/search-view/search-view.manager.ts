@@ -19,8 +19,9 @@ export class SearchViewManager {
     this.firebaseService.setCardsToCollection(userMail, cardsList);
   }
 
-  requestCards(searchItem, page, paginatorPageSize) {
-    return this.tcgApiService.simpleCardSearch(searchItem, page, paginatorPageSize);
+  requestCards(searchItem, page, paginatorPageSize, orderBy = 'name') {
+    console.log('---', searchItem, page, paginatorPageSize, orderBy)
+    return this.tcgApiService.simpleCardSearch(searchItem, page, paginatorPageSize, orderBy);
   }
 
   constructor(

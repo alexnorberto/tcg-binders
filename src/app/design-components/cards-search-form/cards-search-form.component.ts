@@ -3,6 +3,9 @@ import {CardItemModel} from "../../shared/models/card-item.model";
 import {FormControl, FormGroup} from "@angular/forms";
 import {SearchViewManager} from "../../components/search-view/search-view.manager";
 
+/**
+ * This component renders the logic for the cards search form and paginator
+ */
 @Component({
   selector: 'app-cards-search-form',
   templateUrl: './cards-search-form.component.html',
@@ -16,11 +19,28 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
   /** Variable to storage the list of searched items from api */
   searchList: Array<CardItemModel> = [];
 
+  /**
+   * Define the display options
+   */
+  displayOptions = ['List', 'Full', 'Images'];
+
+  /**
+   * Defines the sort options
+   */
+  sortOptions = [
+    {key: 'Name Ascending', value: 'name'},
+    {key: 'Name Descending', value: '-name'},
+    {key: 'Number Ascending', value: 'number'},
+    {key: 'Number Descending', value: '-number'},
+    {key: 'Release Ascending', value: 'set.releaseDate'},
+    {key: 'Release Descending', value: '-set.releaseDate'},
+  ];
+
   /** FormControl for the search-view input */
   searchForm = new FormGroup({
     searchItem: new FormControl(''),
-    displayOption: new FormControl(''),
-    sortOption: new FormControl('')
+    displayOption: new FormControl('Images'),
+    sortOption: new FormControl(this.sortOptions[0])
   });
 
   /** Bind the search-view item on input typed by the user */
@@ -35,13 +55,20 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
   @Output() searchListEmitter = new EventEmitter<any>();
 
   /**
+   * Get a form value from search form passing the form control name
+   * @param formControlName
+   */
+  getFormValue(formControlName) {
+    return this.searchForm.controls[formControlName].value;
+  }
+
+  /**
    * Search with basic criteria using input field text
    * Before the search-view, always update the user collection info
    * @param searchItem
    */
   basicSearch(searchItem = "", page = 1): void {
-    this.searchItem = searchItem;
-    this.manager.requestCards(searchItem, page, this.paginatorPageSize).subscribe(
+    this.manager.requestCards(this.searchItem, page, this.paginatorPageSize,this.getFormValue('sortOption').value).subscribe(
       (result: any) => {
         this.searchList = result.data;
         this.paginatorlength = result.totalCount;
@@ -68,6 +95,10 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
     console.log(searchList)
   }
 
+  /**
+   * On paginate, calls basic search to get more from the list
+   * @param event
+   */
   onPaginate(event) {
     let page = event.pageIndex + 1;
     this.paginatorPageSize = event.pageSize;
@@ -80,11 +111,13 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.searchForm.get("searchItem").valueChanges.subscribe(value => {
+      this.searchItem = value;
+    })
     this.basicSearch();
   }
 
-  ngOnChanges(changes:SimpleChanges) {
-    console.log(changes)
+  ngOnChanges(changes: SimpleChanges) {
   }
 
 }

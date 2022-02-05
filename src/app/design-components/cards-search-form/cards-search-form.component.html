@@ -6,7 +6,7 @@
   <mat-form-field appearance="legacy">
     <mat-label>Display</mat-label>
     <mat-select formControlName="displayOption">
-      <mat-option *ngFor="let item of ['List','Full','Images']" [value]="item">
+      <mat-option *ngFor="let item of displayOptions" [value]="item">
         {{item}}
       </mat-option>
     </mat-select>
@@ -15,13 +15,13 @@
   <mat-form-field appearance="legacy">
     <mat-label>Sort</mat-label>
     <mat-select formControlName="sortOption">
-      <mat-option *ngFor="let item of ['Name','Number','Set']" [value]="item">
-        {{item}}
+      <mat-option *ngFor="let item of sortOptions" [value]="item">
+        {{item.key}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button mat-button (click)="basicSearch(searchForm.value,1)">search</button>
+  <button mat-button (click)="basicSearch(searchItem,1)">search</button>
 </form>
 
 <mat-paginator [length]="paginatorlength"

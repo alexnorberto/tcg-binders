@@ -44,11 +44,12 @@ export class TcgApiService {
    * @param page
    * @param pageSize
    */
-  simpleCardSearch(name,page = 1,pageSize = 20): Observable<any>{
+  simpleCardSearch(name,page = 1,pageSize = 20, orderBy = 'name'): Observable<any>{
+    console.log('name', name, "name")
     if(name == "") {
-      return this.http.get<any>( `${tcgApiUrl}?page=${page}&pageSize=${pageSize}`,{ headers: headers });
+      return this.http.get<any>( `${tcgApiUrl}?page=${page}&pageSize=${pageSize}&orderBy=${orderBy}`,{ headers: headers });
     } else {
-      return this.http.get<any>( `${tcgApiUrl}?page=${page}&pageSize=${pageSize}&q=name:${name}`,{ headers: headers });
+      return this.http.get<any>( `${tcgApiUrl}?page=${page}&pageSize=${pageSize}&orderBy=${orderBy}&q=name:${name}`,{ headers: headers });
     }
 
   }
