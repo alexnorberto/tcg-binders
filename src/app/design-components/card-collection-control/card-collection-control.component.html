@@ -1,7 +1,20 @@
-
 <div *ngIf="card" class="card-control">
-    <mat-icon (click)="addToList(false)" class="btn-control">remove</mat-icon>
-    <span>{{card.quantity}}</span>
-    <mat-icon (click)="addToList(true)" class="btn-control">add</mat-icon>
+  <button
+    [disabled]="!isUserLogged"
+    (click)="addToList(false)"
+    mat-icon-button
+  >
+    <mat-icon>remove</mat-icon>
+  </button>
+
+  <span>{{card.quantity}}</span>
+
+  <button
+    [disabled]="!isUserLogged"
+    (click)="addToList(true)"
+    mat-icon-button
+  >
+    <mat-icon>add</mat-icon>
+  </button>
 </div>
 

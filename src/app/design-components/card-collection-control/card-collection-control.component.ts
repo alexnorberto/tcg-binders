@@ -8,6 +8,7 @@ import {UserDataService} from "../../services/user-data.service";
 import {TcgCardModel} from "../../shared/models/tcg-card.model";
 import {CardItemModel} from "../../shared/models/card-item.model";
 import {CardCollectionControlManager} from "./card-collection-control.manager";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-card-collection-control',
@@ -27,8 +28,19 @@ export class CardCollectionControlComponent implements OnInit, OnChanges {
    */
   @Input() card: TcgCardModel;
 
+  /**
+   * Check if its logged
+   */
+  isUserLogged = false;
+
+  /**
+   * Time out for request to add cards
+   */
   timeout = 1500;
 
+  /**
+   * Stores timer function
+   */
   timer;
 
   /**
@@ -57,10 +69,14 @@ export class CardCollectionControlComponent implements OnInit, OnChanges {
     return this.card.quantity;
   }
 
-  constructor(private manager: CardCollectionControlManager) {
+  constructor(private manager: CardCollectionControlManager,
+              private localStorageService: LocalStorageService) {
   }
 
   ngOnInit(): void {
+    if (this.localStorageService.getUserData()) {
+      this.isUserLogged = true;
+    }
   }
 
   ngOnChanges() {
