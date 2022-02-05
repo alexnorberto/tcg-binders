@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, OnChanges, OnInit} from '@angular/core';
 import {UserDataService} from "../../services/user-data.service";
 import {UserDataModel} from "../../shared/models/user-data.model";
-import {CardItemModel} from "../../shared/models/card-item.model";
 import {SearchViewManager} from "./search-view.manager";
 import {TcgCardModel} from "../../shared/models/tcg-card.model";
 import {LocalStorageService} from "../../services/local-storage.service";
+import {finalize} from "rxjs/operators";
 
 
 @Component({
@@ -37,11 +37,13 @@ export class SearchViewComponent implements OnInit, OnChanges, AfterViewInit {
    * Before the search-view, always update the user collection info
    * @param searchItem
    */
-  getUserBaseCollection(): void {
+  getUserMainCollection(): void {
+    console.log('getUserMainCollection')
     this.isLoadingUserCollection = true;
-    this.manager.requestUserBaseCollection(this.userData.email).subscribe(
+    this.manager.requestUserMainCollection(this.userData.email)
+      .subscribe(
       (collection: any) => {
-        console.log('loading false')
+        console.log('conluiu a busca???');
         this.userMainCardsCollection = collection ? collection : [];
         this.isLoadingUserCollection = false;
       });
@@ -56,10 +58,13 @@ export class SearchViewComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit(): void {
     this.userData = this.localStorageService.getUserData();
+    console.log('start search view', this.userData.email);
     if (!this.userData.email) {
+      console.log('deslogado')
       this.isLoadingUserCollection = false;
     } else {
-      this.getUserBaseCollection();
+      console.log('logado')
+      this.getUserMainCollection();
     }
   }
 

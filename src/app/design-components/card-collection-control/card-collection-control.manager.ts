@@ -5,6 +5,7 @@ import {UserDataService} from "../../services/user-data.service";
 import {TcgApiService} from "../../services/tcg-api.service";
 import {TcgCardModel} from "../../shared/models/tcg-card.model";
 import {CardItemModel} from "../../shared/models/card-item.model";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 @Injectable({
   providedIn: 'root'
@@ -29,9 +30,7 @@ export class CardCollectionControlManager implements OnChanges {
     tcgCardsList.forEach(card => {
       newTcgCardsList.push(card);
     });
-    console.log('newTcgCardsList', newTcgCardsList)
     newTcgCardsList.map(card => delete card.quantity)
-    console.log('newTcgCardsList', newTcgCardsList)
     return this.filterCardsById(newTcgCardsList);
   }
 
@@ -47,7 +46,6 @@ export class CardCollectionControlManager implements OnChanges {
         quantity: card.quantity
       });
     });
-    console.log('userCardsList', newCardsList)
     return this.filterCardsById(newCardsList);
   }
 
@@ -56,28 +54,24 @@ export class CardCollectionControlManager implements OnChanges {
    * @param cardsList
    */
   filterCardsById(cardsList) {
-    console.log(cardsList)
     const uniqueCards = new Set();
     const filteredCardsList = cardsList.filter((card) => {
       const isPresentInSet = uniqueCards.has(card.id);
       uniqueCards.add(card.id);
       return !isPresentInSet;
     });
-    console.log('filtered', filteredCardsList)
     return filteredCardsList;
   }
 
 
   constructor(
     private firebaseService: FirebaseService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private localStorageService: LocalStorageService
   ) {
-    this.userDataService.currentUserData.subscribe(user => {
-      this.userEmail = user.email;
-    });
+    this.userEmail = this.localStorageService.getUserData().email;
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
   }
 }

@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AngularFirestore} from "@angular/fire/firestore";
 import {FirebaseService} from "../../services/firebase.service";
-import {UserDataService} from "../../services/user-data.service";
 import {TcgApiService} from "../../services/tcg-api.service";
 
 @Injectable({
@@ -9,16 +7,21 @@ import {TcgApiService} from "../../services/tcg-api.service";
 })
 export class SearchViewManager {
 
-  requestUserBaseCollection(userId) {
+  /**
+   * Request user main collection from firestore
+   * @param userId
+   */
+  requestUserMainCollection(userId) {
     return this.firebaseService.getCollectionById(userId);
   }
 
-  addCardsToMainCardsCollection(userMail, cardsList, cardsToAddList) {
-    this.firebaseService.setCards(userMail, cardsToAddList);
-    console.log(cardsList);
-    this.firebaseService.setCardsToCollection(userMail, cardsList);
-  }
-
+  /**
+   * Request cards from TCG API
+   * @param searchItem
+   * @param page
+   * @param paginatorPageSize
+   * @param orderBy
+   */
   requestCards(searchItem, page, paginatorPageSize, orderBy = 'name') {
     console.log('---', searchItem, page, paginatorPageSize, orderBy)
     return this.tcgApiService.simpleCardSearch(searchItem, page, paginatorPageSize, orderBy);

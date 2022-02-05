@@ -83,7 +83,6 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
   setQuantityToSearchList(searchList) {
     searchList.forEach(tcgCard => {
       tcgCard.quantity = 0;
-      console.log(this.userMainCardsCollection)
       this.userMainCardsCollection.forEach(userCard => {
         if (userCard.id === tcgCard.id) {
           tcgCard.quantity = userCard.quantity;
@@ -91,7 +90,6 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
       });
     });
     this.searchList = searchList;
-    console.log('set quant', this.searchList)
     this.searchListEmitter.emit(this.searchList);
   }
 
