@@ -51,7 +51,34 @@ export class UserCollectionsComponent implements OnInit, OnChanges, AfterViewIni
   removeCollectionFromUserData(collectionName) {
 
   }
-
+/*
+  setCardsByCollection() {
+    let cardsByCollection = [];
+    let userDataCards = this.userData.cards;
+    let userDataCollections = this.userData.collections;
+    userDataCollections.forEach(collection => {
+      let col = {
+        name: collection.name,
+        cards: [],
+        binders: []
+      }
+      userDataCards.forEach(card => {
+        if(card.collections != null){
+          card.collections.forEach(cardCollection => {
+            if(collection.name == cardCollection.collection){
+              for(let i = 0; i < cardCollection.quantity; i++) {
+                col.cards.push(card);
+              }
+            }
+          });
+        }
+      });
+      cardsByCollection.push(col);
+    });
+    this.cardsByCollection = cardsByCollection;
+    console.log("cardsByCollection",cardsByCollection);
+  }
+*/
   constructor(
     private firebaseService: FirebaseService,
     private userDataService: UserDataService
@@ -64,6 +91,7 @@ export class UserCollectionsComponent implements OnInit, OnChanges, AfterViewIni
       .subscribe(user => {
         if(user.collections){
           this.userData = user;
+          // this.setCardsByCollection();
         }
       });
   }
