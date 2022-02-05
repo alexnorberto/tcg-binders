@@ -4,11 +4,15 @@ Search View form
   *ngIf="!isLoadingUserCollection"
   [userMainCardsCollection]="userMainCardsCollection"
   (searchListEmitter)="receiveSearchData($event)"
-></app-cards-search-form>
+>
 
-<app-cards-list
-  *ngIf="!isLoadingUserCollection"
-  [isLoggedUser]="true"
-  [searchList]="searchList"
-  [userMainCardsCollection]="userMainCardsCollection"
-></app-cards-list>
+  <app-cards-list
+    *ngIf="!isLoadingUserCollection"
+    [isLoggedUser]="true"
+    [searchList]="searchList"
+    [userMainCardsCollection]="userMainCardsCollection"
+  ></app-cards-list>
+
+</app-cards-search-form>
+
+

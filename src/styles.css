@@ -57,7 +57,6 @@ mat-paginator{
   background: transparent !important;
 }
 
-
 .basic-form-container {
   border: 1px solid var(--border-l);
   border-radius: .4rem;
@@ -74,4 +73,11 @@ mat-paginator{
 
 .basic-form-container h1 {
   color: var(--txt-title2);
+}
+
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

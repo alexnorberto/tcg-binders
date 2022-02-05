@@ -1,3 +1,5 @@
+<div class="flex-column-center">
+
 <form id="main-search-bar" [formGroup]="searchForm">
   <mat-form-field appearance="legacy">
     <input formControlName="searchItem" type="text" matInput placeholder="Search">
@@ -24,9 +26,12 @@
   <button mat-button (click)="basicSearch(searchItem,1)">search</button>
 </form>
 
+<ng-content></ng-content>
+
 <mat-paginator [length]="paginatorlength"
                [pageSize]="paginatorPageSize"
                [pageSizeOptions]="[20, 40, 80, 120]"
                (page)="onPaginate($event)"
                aria-label="Select page">
 </mat-paginator>
+</div>
