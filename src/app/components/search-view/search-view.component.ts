@@ -58,8 +58,7 @@ export class SearchViewComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnInit(): void {
     this.userData = this.localStorageService.getUserData();
-    console.log('start search view', this.userData.email);
-    if (!this.userData.email) {
+    if (!this.userData) {
       console.log('deslogado')
       this.isLoadingUserCollection = false;
     } else {

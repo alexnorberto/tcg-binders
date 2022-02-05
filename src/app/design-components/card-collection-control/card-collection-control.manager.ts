@@ -14,11 +14,10 @@ export class CardCollectionControlManager implements OnChanges {
 
   cardsList = [];
 
-  userEmail: string;
-
   addCardsToMainCardsCollection(cardsList) {
-    this.firebaseService.setCards(this.userEmail, this.manageTcgCardsList(JSON.parse(JSON.stringify(cardsList))));
-    this.firebaseService.setCardsToCollection(this.userEmail, this.manageUserCardsList(JSON.parse(JSON.stringify(cardsList))));
+    const userEmail = this.localStorageService.getUserData().email ? this.localStorageService.getUserData().email : null;
+    this.firebaseService.setCards(userEmail, this.manageTcgCardsList(JSON.parse(JSON.stringify(cardsList))));
+    this.firebaseService.setCardsToCollection(userEmail, this.manageUserCardsList(JSON.parse(JSON.stringify(cardsList))));
   }
 
   /**
@@ -69,7 +68,6 @@ export class CardCollectionControlManager implements OnChanges {
     private userDataService: UserDataService,
     private localStorageService: LocalStorageService
   ) {
-    this.userEmail = this.localStorageService.getUserData().email;
   }
 
   ngOnChanges(changes: SimpleChanges) {
