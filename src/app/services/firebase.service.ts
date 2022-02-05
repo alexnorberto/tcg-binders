@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {CardItemModel} from "../shared/models/card-item.model";
+import {TcgCardModel} from "../shared/models/tcg-card.model";
 
 @Injectable({
   providedIn: 'root'
@@ -59,13 +60,13 @@ export class FirebaseService {
    * @param userId
    * @param cardList
    */
-  setCards(userId, cardList: Array<CardItemModel>) {
+  setCards(userId, cardList: Array<TcgCardModel>) {
     const cardsCollection = this.angularFirestore.collection('cards');
     let batch = this.angularFirestore.firestore.batch();
 
     cardList.forEach(card => {
-      let cardRef = cardsCollection.doc(card.cardData.id).ref;
-      batch.set(cardRef, card.cardData);
+      let cardRef = cardsCollection.doc(card.id).ref;
+      batch.set(cardRef, card);
     });
 
     batch.commit().then(r => console.log("batch", r)).catch(e => console.log("batch error", e));
@@ -95,16 +96,26 @@ export class FirebaseService {
    * @param collectionName collection name attribute
    */
   setCardsToCollection(userId, cardList: Array<CardItemModel>, collectionId = 'main-cards-collection', collectionName = 'All my cards') {
+    const userCardsCollection = this.angularFirestore.collection('users/' + userId + '/cards-collections/' + collectionId + '/cards');
+    let batch = this.angularFirestore.firestore.batch();
+
+    cardList.forEach(card => {
+      let cardRef = userCardsCollection.doc(card.id).ref;
+      batch.set(cardRef, card);
+    });
+
+    batch.commit().then(r => console.log("batch", r)).catch(e => console.log("batch error", e));
+
+    /* name */
     this.angularFirestore.doc('users/' + userId + '/cards-collections/' + collectionId)
       .set({
-        name: collectionName,
-        cards: cardList
-      }, {merge: false}).then(r => console.log("setCardsToUserCollection", r))
+        name: collectionName
+      }, {merge: true}).then(r => console.log("setCardsToUserCollection", r))
       .catch(e => console.log("setCardsToUserCollection error", e));
   }
 
   getCollectionById(userId, colId = 'main-cards-collection') {
-    return this.angularFirestore.collection('users/' + userId + '/cards-collections').doc(colId).valueChanges();
+    return this.angularFirestore.collection('users/' + userId + '/cards-collections/main-cards-collection/cards').valueChanges();
   }
 
   getCollectionByName(userId, colName) {

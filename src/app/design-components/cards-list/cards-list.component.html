@@ -7,10 +7,11 @@
                                                    src='{{searchCard.images.small}}' alt="card"></div>
       <!-- CARD CONTROL -->
       <div *ngIf="searchCard" class="card-control">
+        {{searchCard.quantity}}
         <app-card-collection-control
           *ngIf="isLoggedUser"
           [card]="searchCard"
-          [quantityOnUserMainCollection]="searchCard.quantity"
+          [userMainCardsCollection]="userMainCardsCollection"
         >
         </app-card-collection-control>
       </div>

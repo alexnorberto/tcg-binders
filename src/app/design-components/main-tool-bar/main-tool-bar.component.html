@@ -11,7 +11,7 @@
   <span class="example-spacer"></span>
 
 
-  <button mat-button *ngIf="(angularFireAuth.user | async) else else_card" routerLink="/dashboard">{{userData.displayName}}</button>
+  <button mat-button *ngIf="(userData.email) else else_card" routerLink="/dashboard">{{userData.displayName}}</button>
   <ng-template #else_card></ng-template>
 
   <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon"
@@ -20,7 +20,7 @@
   </button>
   <mat-menu #menu="matMenu">
 
-    <ng-container *ngIf="(angularFireAuth.user | async) else notLoggedMenu">
+    <ng-container *ngIf="(userData.email) else notLoggedMenu">
       <button mat-menu-item color="primary" (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Log out</span>

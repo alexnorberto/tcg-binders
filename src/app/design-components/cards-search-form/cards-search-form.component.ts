@@ -68,11 +68,10 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
    * @param searchItem
    */
   basicSearch(searchItem = "", page = 1): void {
-    this.manager.requestCards(this.searchItem, page, this.paginatorPageSize,this.getFormValue('sortOption').value).subscribe(
+    this.manager.requestCards(this.searchItem, page, this.paginatorPageSize, this.getFormValue('sortOption').value).subscribe(
       (result: any) => {
         this.searchList = result.data;
         this.paginatorlength = result.totalCount;
-        this.searchListEmitter.emit(this.searchList);
         this.setQuantityToSearchList(result.data);
       });
   }
@@ -82,17 +81,18 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
    * Sets the user collection quantity for a card to the search-view list cards
    */
   setQuantityToSearchList(searchList) {
-    console.log(searchList)
-    this.userMainCardsCollection.forEach(userCard => {
-      searchList.forEach(tcgCard => {
+    searchList.forEach(tcgCard => {
+      tcgCard.quantity = 0;
+      console.log(this.userMainCardsCollection)
+      this.userMainCardsCollection.forEach(userCard => {
         if (userCard.id === tcgCard.id) {
           tcgCard.quantity = userCard.quantity;
-        } else {
-          tcgCard.quantity = 0;
         }
       });
     });
-    console.log(searchList)
+    this.searchList = searchList;
+    console.log('set quant', this.searchList)
+    this.searchListEmitter.emit(this.searchList);
   }
 
   /**
@@ -118,6 +118,9 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.userMainCardsCollection) {
+      this.basicSearch();
+    }
   }
 
 }

@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {UserDataService} from "../../services/user-data.service";
 import {UserDataModel} from "../../shared/models/user-data.model";
 import {AngularFirestore} from "@angular/fire/firestore";
+import {LocalStorageService} from "../../services/local-storage.service";
 
 @Component({
   selector: 'app-main-tool-bar',
@@ -32,16 +33,17 @@ export class MainToolBarComponent implements OnInit {
   constructor(
     public angularFireAuth: AngularFireAuth,
     private userDataService: UserDataService,
-    private angularFirestore: AngularFirestore
+    private angularFirestore: AngularFirestore,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit(): void {
-    this.getLoggedUserData();
-    this.userDataSubscription = this.userDataService.currentUserData
-      .subscribe(user => this.userData = user);
+    // this.getLoggedUserData();
+    this.userData = this.localStorageService.getUserData();
   }
 
   logout(): void {
     this.angularFireAuth.signOut();
+    this.localStorageService.deleteUserData();
   }
 }

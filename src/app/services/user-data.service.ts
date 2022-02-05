@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {UserDataModel} from "../shared/models/user-data.model";
 import {AuthService} from "./auth.service";
+import {LocalStorageService} from "./local-storage.service";
 
 /**
  * Service to deal with user data
@@ -31,7 +32,6 @@ export class UserDataService {
    * @param collection
    */
   setUserData(userData = null, name = null, email = null, cards = null, collection = null) {
-    console.log("Entradas do SetUserData",userData,name,email,cards,collection)
     let response: UserDataModel;
     if (userData) {
       response = {
@@ -49,10 +49,12 @@ export class UserDataService {
       };
     }
     this.changeUserData(response);
+    this.localStorageService.saveUserData(response);
     return response;
   }
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private localStorageService: LocalStorageService
   ) { }
 }

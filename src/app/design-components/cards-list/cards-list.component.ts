@@ -15,6 +15,8 @@ export class CardsListComponent implements OnInit {
 
   @Input() isLoggedUser = false;
 
+  @Input() userMainCardsCollection = [];
+
   constructor() { }
 
   ngOnInit(): void {

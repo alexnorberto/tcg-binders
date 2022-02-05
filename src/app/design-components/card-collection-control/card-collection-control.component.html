@@ -1,8 +1,7 @@
 
 <div *ngIf="card" class="card-control">
-    On my collection: {{quantityOnUserMainCollection}}
     <mat-icon (click)="addToList(false)" class="btn-control">remove</mat-icon>
-    <span>{{quantity}}</span>
+    <span>{{card.quantity}}</span>
     <mat-icon (click)="addToList(true)" class="btn-control">add</mat-icon>
 </div>
 
