@@ -1,10 +1,14 @@
-<div *ngIf="searchList.length" id="main-search-container">
+<div *ngIf="searchList.length" class="card-list-container">
 
-  <div id="main-search-grid">
-    <div *ngFor="let searchCard of searchList" class="main-search-card-container">
+  <div class="card-list-content">
+    <div *ngFor="let searchCard of searchList" class="card-list-item">
       <!-- CARD IMAGE -->
-      <div *ngIf="searchCard.images"><img matTooltip="{{searchCard.name}} card"
-                                                   src='{{searchCard.images.small}}' alt="card"></div>
+      <div *ngIf="searchCard.images" class="card-image-container">
+        <img
+          matTooltip="{{searchCard.name}} card"
+          src='{{searchCard.images.small}}' alt="card"
+        >
+      </div>
       <!-- CARD CONTROL -->
       <div *ngIf="searchCard" class="card-control">
         <app-card-collection-control
@@ -16,4 +20,5 @@
       </div>
     </div>
   </div>
+
 </div>

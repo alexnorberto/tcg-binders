@@ -1,23 +1,27 @@
-#main-search-container {
+.card-list-container {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 1.25rem;
 }
 
-#main-search-grid {
+.card-list-content {
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  margin: 1rem 2rem;
 }
 
-.main-search-card-container {
+.card-list-item {
   position: relative;
-  margin: 1rem;
+  witdh: 100%;
+  max-width: 15rem;
+  min-width: 10rem;
+  margin: .5rem;
   display:flex;
   flex-direction: column;
+  flex: 1 1 auto;
   background: var(--bg-main);
   border-radius: 10px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
@@ -25,38 +29,30 @@
   0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
-.main-search-card-container img {
-  width: 100%;
-  max-width: 12rem;
-  opacity: .8;
+.card-image-container {
+  position: relative;
+  margin: 1rem 1rem 0 1rem;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-main);
+  border-radius: .5rem;
+  overflow: hidden;
 }
 
-.main-search-card-container img:hover {
+.card-image-container img {
+  width: 101%;
+  height: auto;
+  opacity: .5;
+  border-radius: .5rem;
+}
+
+.card-image-container img:hover {
   opacity: 1;
 }
 
-.card-control-container {
+.card-control {
+  width: 100%;
   display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-between;
-  width: 12rem;
-  height: 2.5rem;
-  margin: -.15rem 0 .2rem 0;
-}
-
-.card-control-inside-container {
-  width: 50%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content:center;
-  font-size: 1rem;
-}
-
-.cards-to-add-list-container {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 10;
+  justify-content: center;
 }
