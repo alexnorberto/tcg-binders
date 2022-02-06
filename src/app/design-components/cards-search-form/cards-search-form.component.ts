@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {CardItemModel} from "../../shared/models/card-item.model";
 import {FormControl, FormGroup} from "@angular/forms";
-import {SearchViewManager} from "../../components/search-view/search-view.manager";
+import {CardsSearchFormManager} from "./cards-search-form.manager";
+import {MatPaginator} from "@angular/material/paginator";
 
 /**
  * This component renders the logic for the cards search form and paginator
@@ -15,6 +16,8 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
 
   /** Store the user base collection cards from firestore */
   @Input() userMainCardsCollection: any = [];
+
+  filteredMainCardsCollection = [];
 
   /** Variable to storage the list of searched items from api */
   searchList: Array<CardItemModel> = [];
@@ -40,11 +43,14 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
   searchForm = new FormGroup({
     searchItem: new FormControl(''),
     displayOption: new FormControl('Images'),
-    sortOption: new FormControl(this.sortOptions[0])
+    sortOption: new FormControl(this.sortOptions[0]),
+    collectionFilter: new FormControl('1')
   });
 
   /** Bind the search-view item on input typed by the user */
   searchItem: string = "";
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   /** Length of the search-view paginator */
   paginatorlength: number = 0;
@@ -52,7 +58,24 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
   /** Page size of the search-view paginator */
   paginatorPageSize = 20;
 
+  /**
+   * Stores the current page on paginator
+   */
+  currentPage = 1;
+
+  showOnlyUserCards = false;
+
+  /**
+   * Event to emit the current shown search list
+   */
   @Output() searchListEmitter = new EventEmitter<any>();
+
+  /**
+   * Set from which data base get data (tcgApi or fireStore user collection)
+   */
+  setCardsSource(showOnlyUserCards){
+    this.showOnlyUserCards = showOnlyUserCards;
+  }
 
   /**
    * Get a form value from search form passing the form control name
@@ -68,12 +91,23 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
    * @param searchItem
    */
   basicSearch(searchItem = "", page = 1): void {
-    this.manager.requestCards(this.searchItem, page, this.paginatorPageSize, this.getFormValue('sortOption').value).subscribe(
-      (result: any) => {
-        this.searchList = result.data;
-        this.paginatorlength = result.totalCount;
-        this.setQuantityToSearchList(result.data);
-      });
+    if (!this.showOnlyUserCards) {
+      // Request from TCG API
+      this.manager.requestTcgApiCards(searchItem, page, this.paginatorPageSize, this.getFormValue('sortOption').value).subscribe(
+        (result: any) => {
+          // this.searchList = result.data;
+          this.paginatorlength = result.totalCount;
+          this.setQuantityToSearchList(result.data);
+        });
+
+    } else {
+      // Use data from firestore (no request need here - data passed from parent)
+          this.paginatorlength = this.userMainCardsCollection.length;
+          this.currentPage = 1;
+          this.paginator.pageIndex = 0;
+          this.searchList = this.userMainCardsCollection.slice(0, this.paginatorPageSize - 1);
+          this.searchListEmitter.emit(this.searchList);
+    }
   }
 
   /**
@@ -98,13 +132,21 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
    * @param event
    */
   onPaginate(event) {
-    let page = event.pageIndex + 1;
+    this.currentPage = event.pageIndex + 1;
     this.paginatorPageSize = event.pageSize;
-    this.basicSearch(this.searchItem, page);
+
+    if (!this.showOnlyUserCards) {
+      this.basicSearch(this.searchItem, this.currentPage);
+    } else {
+      const start = ((this.currentPage - 1) * this.paginatorPageSize);
+      const end = (((this.currentPage - 1) * this.paginatorPageSize) + this.paginatorPageSize -1);
+      this.searchList = this.userMainCardsCollection.slice(start, end);
+      this.searchListEmitter.emit(this.searchList);
+    }
   }
 
   constructor(
-    private manager: SearchViewManager
+    private manager: CardsSearchFormManager
   ) {
   }
 
@@ -117,7 +159,7 @@ export class CardsSearchFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.userMainCardsCollection) {
-      this.basicSearch();
+      this.basicSearch(this.searchItem, this.currentPage);
     }
   }
 

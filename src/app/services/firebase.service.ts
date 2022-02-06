@@ -2,16 +2,15 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {CardItemModel} from "../shared/models/card-item.model";
 import {TcgCardModel} from "../shared/models/tcg-card.model";
+import {LocalStorageService} from "./local-storage.service";
+import {UserDataModel} from "../shared/models/user-data.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
 
-  constructor(
-    private angularFirestore: AngularFirestore
-  ) {
-  }
+  userData: UserDataModel;
 
   /**
    * Updates the user data on firestore
@@ -114,8 +113,11 @@ export class FirebaseService {
       .catch(e => console.log("setCardsToUserCollection error", e));
   }
 
-  getCollectionById(userId, colId = 'main-cards-collection') {
-    return this.angularFirestore.collection('users/' + userId + '/cards-collections/main-cards-collection/cards').valueChanges();
+  getMainCardsCollection() {
+    return this.angularFirestore.collection(
+      'users/' + this.userData.email + '/cards-collections/main-cards-collection/cards',
+      ref => ref.orderBy('name', 'asc')
+    ).valueChanges();
   }
 
   getCollectionByName(userId, colName) {
@@ -136,6 +138,13 @@ export class FirebaseService {
   }
 
   deleteCollection(id) {
+  }
+
+  constructor(
+    private angularFirestore: AngularFirestore,
+    private localStorageService: LocalStorageService
+  ) {
+    this.userData = localStorageService.getUserData();
   }
 
 

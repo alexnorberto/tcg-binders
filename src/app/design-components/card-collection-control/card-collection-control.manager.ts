@@ -17,7 +17,7 @@ export class CardCollectionControlManager implements OnChanges {
   addCardsToMainCardsCollection(cardsList) {
     const userEmail = this.localStorageService.getUserData().email ? this.localStorageService.getUserData().email : null;
     this.firebaseService.setCards(userEmail, this.manageTcgCardsList(JSON.parse(JSON.stringify(cardsList))));
-    this.firebaseService.setCardsToCollection(userEmail, this.manageUserCardsList(JSON.parse(JSON.stringify(cardsList))));
+    this.firebaseService.setCardsToCollection(userEmail, JSON.parse(JSON.stringify(cardsList)));
   }
 
   /**

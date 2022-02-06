@@ -14,5 +14,9 @@
 }
 
 #main-search-bar mat-form-field:nth-child(1) {
-  width: 20rem;
+  width: 10rem;
+}
+
+mat-radio-button {
+  margin-right: .5rem;
 }

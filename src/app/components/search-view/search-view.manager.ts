@@ -12,19 +12,7 @@ export class SearchViewManager {
    * @param userId
    */
   requestUserMainCollection(userId) {
-    return this.firebaseService.getCollectionById(userId);
-  }
-
-  /**
-   * Request cards from TCG API
-   * @param searchItem
-   * @param page
-   * @param paginatorPageSize
-   * @param orderBy
-   */
-  requestCards(searchItem, page, paginatorPageSize, orderBy = 'name') {
-    console.log('---', searchItem, page, paginatorPageSize, orderBy)
-    return this.tcgApiService.simpleCardSearch(searchItem, page, paginatorPageSize, orderBy);
+    return this.firebaseService.getMainCardsCollection();
   }
 
   constructor(

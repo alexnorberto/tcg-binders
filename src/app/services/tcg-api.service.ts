@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {environment} from "../../environments/environment";
 
@@ -45,7 +45,6 @@ export class TcgApiService {
    * @param pageSize
    */
   simpleCardSearch(name,page = 1,pageSize = 20, orderBy = 'name'): Observable<any>{
-    console.log('name', name, "name")
     if(name == "") {
       return this.http.get<any>( `${tcgApiUrl}?page=${page}&pageSize=${pageSize}&orderBy=${orderBy}`,{ headers: headers });
     } else {

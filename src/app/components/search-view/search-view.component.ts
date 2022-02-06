@@ -38,12 +38,10 @@ export class SearchViewComponent implements OnInit, OnChanges, AfterViewInit {
    * @param searchItem
    */
   getUserMainCollection(): void {
-    console.log('getUserMainCollection')
     this.isLoadingUserCollection = true;
     this.manager.requestUserMainCollection(this.userData.email)
       .subscribe(
       (collection: any) => {
-        console.log('conluiu a busca???');
         this.userMainCardsCollection = collection ? collection : [];
         this.isLoadingUserCollection = false;
       });
@@ -59,10 +57,8 @@ export class SearchViewComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnInit(): void {
     this.userData = this.localStorageService.getUserData();
     if (!this.userData) {
-      console.log('deslogado')
       this.isLoadingUserCollection = false;
     } else {
-      console.log('logado')
       this.getUserMainCollection();
     }
   }
